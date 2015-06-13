@@ -2,6 +2,9 @@
     using System;
 
     class Program {
+        public const int ServiceId = 64761;
+        public const string postalCode = "03833";
+
         public static int[] _channelSourceIds = {
             2329, 1190,97,661,1211,	233,1551,322,3853,23206,1867,20258,487,1879,203,2896,2330,3454,315,1881,20259,9397,	
             430,431,441,33,440,1275,398,410,424,427,408,432,438,426,452,399,1202,450,429,428,442,4893,28,434,5072,423,	
@@ -30,7 +33,7 @@
             //var result = GetServices();
             //var channels = GetChannels();
             const string apiKey = "bq4zwb4skur2gn9vzqedf6x7";
-            new RoviApi(apiKey).GetSchedule(_channelSourceIds);
+            new RoviApi(apiKey).GetSchedule(_channelSourceIds, 60);
 
             Console.ReadLine();
         }

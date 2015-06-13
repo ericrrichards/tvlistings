@@ -1,0 +1,63 @@
+﻿body {
+    padding-top: 55px;
+    padding-bottom: 50px;
+}
+
+td.Lifestyle {
+    background-color: cyan;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+td.Other {
+    background-color: magenta;
+    color: white;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+td.News {
+    background-color: yellow;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+td.Sports {
+    background-color: green;
+    color: white;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+td.Movie {
+    background-color: red;
+    color: white;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+td.Children_s {
+    background-color: blue;
+    color: white;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+td.Music {
+    background-color: black;
+    color: white;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+table.listingsTable th {
+    text-align: center;
+    border-right: 1px solid black;
+}
+
+table.listingsTable thead {
+    padding-top: 55px;
+    border-top: none;
+    border-bottom: none;
+    background-color: #FFF;
+}
