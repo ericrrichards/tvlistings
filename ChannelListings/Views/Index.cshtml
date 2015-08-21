@@ -21,8 +21,12 @@
     }
 }
 @{
-    Layout = "Views/_Layout.cshtml";
-    ViewBag.Title = "Index";
+    try {
+        Layout = "Views/_Layout.cshtml";
+        ViewBag.Title = "Index";
+    } catch (Exception ex) {
+        Console.WriteLine(ex.Message+"\n"+ex.StackTrace);
+    }
 }
 
 
@@ -45,33 +49,37 @@
             </thead>
             <tbody>
             @foreach (var channel in @Model.GridChannels) {
-                <tr>
-                    <td>@channel.Channel @channel.DisplayName @channel.SourceId</td>
-                    @{
-                        var colCount = 0;
-                        foreach (var airing in channel.Airings) {
-                            var duration = airing.Duration;
-                            if (airing.AiringTimeLocal < startTime) {
-                                duration = (int)Math.Ceiling((airing.AiringTimeLocal.AddMinutes(airing.Duration) - startTime).TotalMinutes);
-                            }
+                try {
+                    <tr>
+                        <td>@channel.Channel @channel.DisplayName @channel.SourceId</td>
+                        @{
+                            var colCount = 0;
+                            foreach (var airing in channel.Airings) {
+                                var duration = airing.Duration;
+                                if (airing.AiringTimeLocal < startTime) {
+                                    duration = (int)Math.Ceiling((airing.AiringTimeLocal.AddMinutes(airing.Duration) - startTime).TotalMinutes);
+                                }
 
-                            var i = Math.Max(duration / 30, 1);
-                            var lastColCount = colCount;
-                            colCount += i;
-                            var colSpan = (colCount <= 7 ? i : colCount - lastColCount);
-                            if (airing.AiringTimeLocal <= endTime) {
-                                <td class="@airing.Category.Replace('\'', '_') @airing.Subcategory.Replace(' ', '_')" colspan="@colSpan">
-                                    @airing.Title
-                                    <br/>
-                                    @airing.AiringTimeLocal.ToShortTimeString() - @airing.AiringTimeLocal.AddMinutes(airing.Duration).ToShortTimeString()
-                                    <br/>
-                                    @airing.EpisodeTitle
-                                </td>
-                            }
+                                var i = Math.Max(duration / 30, 1);
+                                var lastColCount = colCount;
+                                colCount += i;
+                                var colSpan = (colCount <= 7 ? i : colCount - lastColCount);
+                                if (airing.AiringTimeLocal <= endTime) {
+                                    <td class="@((airing.Category ??"").Replace('\'', '_')) @((airing.Subcategory ??"").Replace(' ', '_'))" colspan="@colSpan">
+                                        @airing.Title
+                                        <br/>
+                                        @airing.AiringTimeLocal.ToShortTimeString() - @airing.AiringTimeLocal.AddMinutes(airing.Duration).ToShortTimeString()
+                                        <br/>
+                                        @airing.EpisodeTitle
+                                    </td>
+                                }
 
+                            }
                         }
-                    }
-                </tr>
+                    </tr>
+                } catch (Exception ex) {
+                    Console.WriteLine(ex.Message + "\n"+ex.StackTrace);
+                }
             }
             </tbody>
 
