@@ -3,6 +3,36 @@
     padding-bottom: 50px;
 }
 
+.btn-foo {
+    color: black;
+}
+
+.Other .btn-foo {
+    color: white;
+}
+.Sports .btn-foo {
+    color: white;
+}
+.Movie .btn-foo {
+    color: white;
+}
+.News .btn-foo {
+    color: black;
+}
+.Lifestyle .btn-foo {
+    color: black;
+}
+.Music .btn-foo {
+    color: white;
+}
+.Children_s .btn-foo {
+    color: white;
+}
+
+.btn-block {
+    height: 100%;
+}
+
 td.Lifestyle {
     background-color: cyan;
     border-left: 1px solid black;
