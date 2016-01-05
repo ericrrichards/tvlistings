@@ -58,27 +58,34 @@ namespace ChannelListings.Modules {
         }
 
         private List<VlcPlaylistItem> GetPlaylist() {
-            string xml;
-            using (var wc = new WebClient()) {
-                wc.Headers[HttpRequestHeader.Authorization] = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(":megaman22"));
-                xml = wc.DownloadString("http://localhost:8080/requests/playlist_jstree.xml");
-            }
-            var doc = XDocument.Parse(xml);
-            var playlist = new Dictionary<int, VlcPlaylistItem>();
-            var items = doc.Descendants("item").Where(i => i.Attribute("uri") != null && i.Attribute("uri").Value.StartsWith("http://"));
-            foreach (var item in items) {
-                var plItem = new VlcPlaylistItem {
-                    Uri = item.Attribute("uri").Value,
-                    ID = Convert.ToInt32(item.Attribute("id").Value.Split('_').Last()),
-                    Name = item.Attribute("name").Value,
-                    ChannelNum = Convert.ToInt32(item.Attribute("uri").Value.Split(new[] {"/v"}, StringSplitOptions.None).Last())
-                };
-                if (!playlist.ContainsKey(plItem.ChannelNum)) {
-                    playlist.Add(plItem.ChannelNum, plItem);
+            try {
+                string xml;
+                using (var wc = new WebClient()) {
+                    wc.Headers[HttpRequestHeader.Authorization] = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(":megaman22"));
+                    xml = wc.DownloadString("http://localhost:8080/requests/playlist_jstree.xml");
                 }
-            }
+                var doc = XDocument.Parse(xml);
+                var playlist = new Dictionary<int, VlcPlaylistItem>();
+                var items = doc.Descendants("item").Where(i => i.Attribute("uri") != null && i.Attribute("uri").Value.StartsWith("http://"));
+                foreach (var item in items) {
+                    var plItem = new VlcPlaylistItem {
+                        Uri = item.Attribute("uri").Value,
+                        ID = Convert.ToInt32(item.Attribute("id").Value.Split('_').Last()),
+                        Name = item.Attribute("name").Value,
+                        ChannelNum = Convert.ToInt32(item.Attribute("uri").Value.Split(new[] {
+                            "/v"
+                        }, StringSplitOptions.None).Last())
+                    };
+                    if (!playlist.ContainsKey(plItem.ChannelNum)) {
+                        playlist.Add(plItem.ChannelNum, plItem);
+                    }
+                }
 
-            return playlist.Values.ToList();
+                return playlist.Values.ToList();
+            } catch (Exception ex) {
+                //Log.Error("Exception in " + ex.TargetSite.Name, ex);
+                return new List<VlcPlaylistItem>();
+            }
         }
 
         private dynamic All(dynamic parameters) {
